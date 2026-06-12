@@ -1,0 +1,30 @@
+name: AIHOT Feishu Daily Push
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC; 00:00 UTC equals Beijing 08:00.
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  push-aihot-feishu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch, rank, and push AIHOT news
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: python scripts/push_aihot_feishu.py
