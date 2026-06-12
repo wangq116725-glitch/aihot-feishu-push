@@ -197,7 +197,7 @@ def fetch_aihot_items(config: dict[str, Any]) -> list[dict[str, Any]]:
         timeout=int(api_config.get("timeout_seconds", 30)),
         params={
             "mode": api_config["mode"],
-            "limit": api_config["default_limit"],
+            "take": api_config["default_limit"],
         },
     )
     return extract_items(payload)
