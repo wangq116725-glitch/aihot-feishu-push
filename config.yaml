@@ -1,0 +1,306 @@
+api:
+  ai_hot_url: "https://aihot.virxact.com/api/public/items"
+  mode: "all"
+  default_limit: 100
+  request_retry: 1
+  timeout_seconds: 30
+
+filter:
+  target_top_n: 5
+  ranking_pool_size: 20
+  relevance_threshold: 60
+  final_score_threshold: 65
+  mainstream_ai_companies:
+    - OpenAI
+    - Gemini
+    - 飞书
+    - ChatGPT
+    - OpenClaw
+    - Shopify
+    - Amazon
+    - TikTok
+    - TikTok Shop
+    - Meta
+    - Google
+    - Canva
+    - Adobe
+  valid_categories:
+    - AI
+    - 模型
+    - 产品
+    - 工具
+    - Agent
+    - 芯片
+    - 融资
+    - 政策
+    - 行业
+    - 电商
+    - 跨境
+    - 营销
+    - 设计
+    - 视频
+    - 物流
+    - 客服
+    - 开发
+    - 自动化
+  keep_keywords:
+    - AI
+    - 人工智能
+    - 大模型
+    - LLM
+    - Agent
+    - 智能体
+    - OpenAI
+    - ChatGPT
+    - Claude
+    - Gemini
+    - DeepSeek
+    - Anthropic
+    - Google AI
+    - Microsoft AI
+    - Meta AI
+    - OpenClaw
+    - 机器人
+    - AI芯片
+    - 算力
+    - 生成式AI
+    - 商品图
+    - AI商品图
+    - 产品图
+    - 图像生成
+    - 视频生成
+    - AI视频
+    - 短视频
+    - TikTok
+    - TikTok Shop
+    - TikTok视频监控
+    - 竞品分析
+    - 竞品素材
+    - 素材分析
+    - 广告素材
+    - 电商
+    - 跨境电商
+    - Shopify
+    - Amazon
+    - 亚马逊
+    - 店铺运营
+    - 运营提效
+    - 客服自动化
+    - 物流自动化
+    - 物流跟踪
+    - 自动化脚本
+    - 脚本自动化
+    - AI编程
+    - 代码生成
+    - 编程助手
+    - RPA
+    - 工作流自动化
+    - 营销自动化
+    - 多语言客服
+    - 翻译
+    - 本地化
+    - 数据分析
+    - 报表自动化
+  exclude_keywords:
+    - 娱乐
+    - 体育
+    - 八卦
+    - 明星
+    - 社会事件
+    - 车祸
+    - 犯罪
+    - 警方
+    - 标题党
+    - 震惊
+    - 万万没想到
+    - 不看后悔
+    - AI绘图头像
+    - AI写真
+    - AI换脸娱乐
+
+weights:
+  ai_hot_score_weight: 0.15
+  relevance_weight: 0.35
+  importance_weight: 0.15
+  practical_weight: 0.30
+  novelty_weight: 0.05
+
+openai:
+  model: "gpt-5.5"
+  host: "https://api.openai.com"
+  api_path: "/v1/responses"
+  retry: 1
+  timeout_seconds: 180
+  request_interval_seconds: 2
+  scoring_prompt: |
+    你是跨境电商公司内部AI资讯主编。
+    目标：
+    从大量AI资讯中筛选出最值得推送给跨境电商团队的内容。
+    读者包括运营、设计、视频、开发、物流、客服和管理层。
+    他们不一定懂英文，也不一定懂技术。
+    核心原则：
+    优先评估资讯的业务落地价值，而不是技术先进性。
+    你的任务不是寻找最强AI技术，而是寻找最值得跨境电商团队关注和使用的AI资讯。
+    对于模型能力、API能力、Benchmark成绩、推理速度、参数规模等技术新闻，应重点评估其是否已经形成可直接使用的产品、工具或案例。
+    如果不能被运营、设计、视频、客服等非技术团队直接理解或使用，则不应获得高分。
+    请根据以下维度评分（0-100）：
+    1. relevance_score 与跨境电商业务和AI应用的相关度。
+    重点关注：
+    - 商品运营
+    - 广告投放
+    - TikTok运营
+    - Amazon运营
+    - Shopify运营
+    - 内容生产
+    - 视频制作
+    - 客服自动化
+    - 数据分析
+    - 工作流自动化
+    2. importance_score 对跨境电商业务、平台生态或管理决策的影响力。
+    高分情况：
+    - TikTok Shop政策变化
+    - Amazon新功能
+    - Shopify AI能力更新
+    - 广告平台变化
+    - 行业成本变化
+    - 重大平台战略调整
+    - AI工具改变行业工作方式
+    低分情况：
+    - 单纯模型升级
+    - Benchmark刷新
+    - 参数提升
+    - 技术指标提升
+    3. practical_score 对运营、设计、视频、物流、客服和管理层的实际落地价值。
+    评分重点：
+    - 是否可以直接使用
+    - 是否容易理解
+    - 是否容易试用
+    - 是否容易部署
+    - 是否能够直接提升效率
+    特别注意：
+    开发团队参考价值不能单独构成高 practical_score。
+    如果需要API接入、工程开发、模型部署或系统集成之后才能产生业务价值，则 practical_score 不得高于60分。
+    4. novelty_score 新闻新鲜度和讨论价值。
+    高分：
+    - 刚发布的重要产品
+    - 行业重大变化
+    - 具有广泛讨论价值
+    低分：
+    - 重复报道
+    - 已广泛传播的旧闻
+    优先推荐内容（重点加分）：
+    - AI商品图生成、产品图优化、图像编辑、AI模特、AI换背景、AI营销素材生成
+    - AI视频制作、短视频生成、视频剪辑自动化、视频翻译、视频本地化
+    - TikTok相关AI工具、TikTok Shop相关工具、Amazon卖家工具、Shopify AI工具
+    - 广告素材分析、竞品分析、TikTok视频监控
+    - AI客服Agent、客服自动化、AI销售助手
+    - 物流自动化、物流追踪、仓储自动化
+    - AI编程、自动化脚本、RPA、工作流自动化
+    - 数据分析、BI自动化、报表自动化
+    - 已上线并可注册试用的AI产品
+    - 跨境电商企业真实应用案例
+    - 对管理层有决策价值的平台、政策、成本变化
+    谨慎评分内容：
+    以下内容即使技术先进，也不应自动获得高分：
+    - LLM模型升级
+    - STT语音转文字模型
+    - OCR模型
+    - Embedding模型
+    - 多模态模型
+    - 推理模型
+    - API升级
+    - 推理速度提升
+    - 参数规模提升
+    - Benchmark刷新
+    只有在满足以下条件之一时才允许高分：
+    1. 已形成可直接使用的产品；
+    2. 已有明确跨境电商应用案例；
+    3. 非技术团队可以直接试用；
+    4. 已对企业效率产生明确影响。
+    否则：
+    - importance_score 不得高于65
+    - practical_score 不得高于60
+    减分项：
+    - 与跨境电商业务无关的泛AI新闻
+    - 纯技术模型升级新闻
+    - 芯片新闻
+    - 学术论文新闻
+    - Benchmark新闻
+    - 社会新闻
+    - 娱乐新闻
+    - 标题党
+    - 营销稿
+    - 重复报道
+    - AI只是噱头
+    评分参考标准：
+    90-100：
+    必须推送，直接影响跨境电商业务。
+    例如：TikTok Shop AI重大更新、Amazon AI卖家工具上线、Shopify AI功能发布、AI商品图工具突破、AI客服Agent成功案例。
+    75-89：
+    值得重点关注，存在明确业务价值。
+    例如：视频生成工具、广告分析工具、自动化运营工具、可直接使用的新AI产品。
+    60-74：
+    一般关注，有潜在价值但业务影响有限。
+    例如：模型升级、API升级、开发工具升级、底层能力提升。
+    0-59：
+    不建议推送，与业务关联弱或短期无法产生价值。
+    输入：
+    标题：{title}
+    摘要：{summary}
+    分类：{category}
+    来源：{source}
+    原始热度：{score}
+    只返回JSON：
+    {{
+    "relevance_score":0,
+    "importance_score":0,
+    "practical_score":0,
+    "novelty_score":0,
+    "reason":"一句话说明"
+    }}
+  ranking_prompt: |
+    你是跨境电商公司内部AI资讯主编。
+    下面有{count}条已经完成评分的资讯。
+    请选出最值得推送到飞书群的{top_n}条。
+    核心原则：
+    优先选择对跨境电商业务有直接提效价值、容易理解、容易试用、容易落地的资讯。
+    不要因为技术指标先进、Benchmark领先、模型速度提升或大厂发布，就自动认为值得推送。
+    排序标准：
+    1. 对跨境电商业务提效的直接价值
+    2. 对运营、设计、视频、物流、客服、管理层的实际参考价值
+    3. 与商品图、视频、TikTok、竞品素材、广告素材、物流、客服、Shopify、Amazon、TikTok Shop的相关度
+    4. 工具或案例是否容易理解、容易试用、容易落地
+    5. 新闻新鲜度和讨论价值
+    优先选择：
+    - 商品图、产品图、AI模特、图片编辑类工具
+    - AI视频、短视频、本地化、剪辑、字幕、翻译类工具
+    - TikTok、TikTok Shop、Shopify、Amazon相关AI工具或平台变化
+    - 广告素材分析、竞品素材分析、TikTok视频监控
+    - AI客服Agent、客服自动化、物流自动化
+    - 运营提效、数据分析、报表自动化、工作流自动化
+    - 非技术团队可以直接理解、试用或采购的产品和案例
+    - 对管理层有决策价值的平台、政策、成本、效率变化
+    请避免：
+    - 内容重复
+    - 与跨境电商无关的泛AI行业新闻
+    - 过于技术底层且短期不可落地的新闻
+    - 单纯模型升级、API升级、Benchmark刷新、参数提升、推理速度提升
+    - 需要二次开发或系统集成后才能体现价值的底层能力新闻
+    - 低价值新闻
+    - 噱头新闻
+    - 营销稿
+    特别规则：
+    对于LLM、STT、OCR、Embedding、多模态模型、API、Benchmark等技术新闻，只有在已经形成可直接使用的产品、明确跨境电商案例，或非技术团队可以直接试用时，才允许进入Top推荐。
+    否则即使综合分较高，也应优先让位给更贴近运营、设计、视频、客服、物流和管理层的业务工具或案例。
+    资讯列表：
+    {items_json}
+    返回JSON：
+    {{
+    "top_items":[
+    {{
+    "id":"资讯ID",
+    "rank":1,
+    "ranking_reason":"推荐原因"
+    }}
+    ]
+    }}
